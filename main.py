@@ -1,10 +1,9 @@
-import random as rd
 import re
 import math
 import string
+import random
 
-
-def pre_process_tweets(url):
+def ppt(url):
 
     f = open(url, "r", encoding="utf8")
     tweets = list(f)
@@ -47,7 +46,7 @@ def k_means(tweets, k=4, max_iterations=50):
     count = 0
     hash_map = dict()
     while count < k:
-        random_tweet_idx = rd.randint(0, len(tweets) - 1)
+        random_tweet_idx = random.randint(0, len(tweets) - 1)
         if random_tweet_idx not in hash_map:
             count += 1
             hash_map[random_tweet_idx] = True
@@ -98,7 +97,7 @@ def assign_cluster(tweets, centroids):
         cluster_idx = -1;
         
         for c in range(len(centroids)):
-            dis = getDistance(centroids[c], tweets[t])
+            dis = Distance(centroids[c], tweets[t])
 
             if centroids[c] == tweets[t]:
                 cluster_idx = c
@@ -110,7 +109,7 @@ def assign_cluster(tweets, centroids):
                 min_dis = dis
                 
         if min_dis == 1:
-            cluster_idx = rd.randint(0, len(centroids) - 1)
+            cluster_idx = random.randint(0, len(centroids) - 1)
 
         clusters.setdefault(cluster_idx, []).append([tweets[t]])
         last_tweet_idx = len(clusters.setdefault(cluster_idx, [])) - 1
@@ -138,7 +137,7 @@ def update_centroids(clusters):
                     if t2 < t1:
                         dis = min_dis_dp[t2][t1]
                     else:
-                        dis = getDistance(clusters[c][t1][0], clusters[c][t2][0])
+                        dis = Distance(clusters[c][t1][0], clusters[c][t2][0])
 
                     min_dis_dp[t1].append(dis)
                     dis_sum += dis
@@ -154,7 +153,7 @@ def update_centroids(clusters):
     return centroids
 
 
-def getDistance(tweet1, tweet2):
+def Distance(tweet1, tweet2):
 
     intersection = set(tweet1).intersection(tweet2)
 
@@ -178,7 +177,7 @@ if __name__ == '__main__':
 
     data_url = 'Health_Tweets/bbchealth.txt'
 
-    tweets = pre_process_tweets(data_url)
+    tweets = ppt(data_url)
 
     experiments = 5
     k = 3
