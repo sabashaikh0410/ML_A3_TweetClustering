@@ -7,7 +7,7 @@ def ppt(url):
 
     f = open(url, "r", encoding="utf8")
     tweets = list(f)
-    list_of_tweets = []
+    tweetList = []
 
     for i in range(len(tweets)):
         
@@ -32,11 +32,11 @@ def ppt(url):
 
         tweets[i] = " ".join(tweets[i].split())
 
-        list_of_tweets.append(tweets[i].split(' '))
+        tweetList.append(tweets[i].split(' '))
 
     f.close()
 
-    return list_of_tweets
+    return tweetList
 
 
 def k_means(tweets, k=4, max_iterations=50):
@@ -48,7 +48,7 @@ def k_means(tweets, k=4, max_iterations=50):
     while count < k:
         random_tweet_idx = random.randint(0, len(tweets) - 1)
         if random_tweet_idx not in hash_map:
-            count += 1
+            count = count + 1
             hash_map[random_tweet_idx] = True
             centroids.append(tweets[random_tweet_idx])
 
